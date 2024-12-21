@@ -33,7 +33,8 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npx simple-git-hooks"
   },
   "peerDependencies": {
     "immer": "^9.0.0 || ^10.0.0",
