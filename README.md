@@ -25,39 +25,45 @@ yarn add immer-zundo
 
 ## 基础使用
 
-```jsx
-import { create } from "zustand";
-import { withZundo } from "zustand-immer";
+```tsx
+import { create } from 'zustand'
+import { withZundo } from 'zustand-immer'
 
 // 创建一个具有撤销/重做功能的存储
 const useStore = create(
-  withZundo((set) => ({
+  withZundo(set => ({
     count: 0,
-    text: "",
-    increase: () => set((state) => ({ count: state.count + 1 })),
-    decrease: () => set((state) => ({ count: state.count - 1 })),
+    text: '',
+    increase: () => set(state => ({ count: state.count + 1 })),
+    decrease: () => set(state => ({ count: state.count - 1 })),
     setText: (text: string) => set({ text }),
   }))
-);
+)
 
 // 在组件中使用
-const MyComponent = () => {
-  const { count, text, increase, decrease, setText } = useStore();
-  const { undo, redo, clear } = useStore.zundo();
+function MyComponent() {
+  const { count, text, increase, decrease, setText } = useStore()
+  const { undo, redo, clear } = useStore.zundo()
 
   return (
     <>
-      <div>Count: {count}</div>
-      <div>Text: {text}</div>
+      <div>
+        Count:
+        {count}
+      </div>
+      <div>
+        Text:
+        {text}
+      </div>
       <button onClick={increase}>Increase</button>
       <button onClick={decrease}>Decrease</button>
-      <button onClick={() => setText("hello")}>Set Text</button>
+      <button onClick={() => setText('hello')}>Set Text</button>
       <button onClick={undo}>Undo</button>
       <button onClick={redo}>Redo</button>
       <button onClick={clear}>Clear History</button>
     </>
-  );
-};
+  )
+}
 ```
 
 ## API
