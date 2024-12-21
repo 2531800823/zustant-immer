@@ -25,9 +25,9 @@ yarn add immer-zundo
 
 ## 基础使用
 
-```typescript
+```jsx
 import { create } from "zustand";
-import { withZundo } from "immer-zundo";
+import { withZundo } from "zustand-immer";
 
 // 创建一个具有撤销/重做功能的存储
 const useStore = create(
