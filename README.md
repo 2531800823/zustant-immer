@@ -29,24 +29,39 @@ yarn add @spliu/zustand-immer
 import { zustandPatchUndo } from '@spliu/zustand-immer'
 import { create } from 'zustand'
 
-// 创建一个具有撤销/重做功能的存储
-const useStore = create(
+interface Store {
+  count: number
+  text: string
+  increase: () => void
+  decrease: () => void
+  setText: (text: string) => void
+}
+
+const useStore = create<Store>()(
   zustandPatchUndo(set => ({
     count: 0,
     text: '',
     increase: () => set(state => ({ count: state.count + 1 })),
     decrease: () => set(state => ({ count: state.count - 1 })),
     setText: (text: string) => set({ text }),
-  }))
+  })),
 )
 
 // 在组件中使用
 function MyComponent() {
   const { count, text, increase, decrease, setText } = useStore()
-  const { undo, redo, clear } = useStore.zundo()
+  const { undo, redo, clear, redoStack, undoStack } = useStore.temporal.getState()
 
   return (
     <>
+      <div>
+        Redo Stack:
+        {JSON.stringify(redoStack)}
+      </div>
+      <div>
+        Undo Stack:
+        {JSON.stringify(undoStack)}
+      </div>
       <div>
         Count:
         {count}
@@ -58,8 +73,8 @@ function MyComponent() {
       <button onClick={increase}>Increase</button>
       <button onClick={decrease}>Decrease</button>
       <button onClick={() => setText('hello')}>Set Text</button>
-      <button onClick={undo}>Undo</button>
-      <button onClick={redo}>Redo</button>
+      <button onClick={() => undo()}>Undo</button>
+      <button onClick={() => redo()}>Redo</button>
       <button onClick={clear}>Clear History</button>
     </>
   )

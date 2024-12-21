@@ -1,29 +1,33 @@
-import { useState } from 'react'
+import useStore from './store'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { count, text, increase, decrease, setText } = useStore()
+  const { undo, redo, clear, redoStack, undoStack } = useStore.temporal.getState()
+
   return (
     <>
       <div>
+        Redo Stack:
+        {JSON.stringify(redoStack)}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is
-          {' '}
-          {count}
-        </button>
-        <p>
-          Edit
-          {' '}
-          <code>src/App.tsx</code>
-          {' '}
-          and save to test HMR
-        </p>
+      <div>
+        Undo Stack:
+        {JSON.stringify(undoStack)}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>
+        Count:
+        {count}
+      </div>
+      <div>
+        Text:
+        {text}
+      </div>
+      <button onClick={increase}>Increase</button>
+      <button onClick={decrease}>Decrease</button>
+      <button onClick={() => setText('hello')}>Set Text</button>
+      <button onClick={() => undo()}>Undo</button>
+      <button onClick={() => redo()}>Redo</button>
+      <button onClick={clear}>Clear History</button>
     </>
   )
 }

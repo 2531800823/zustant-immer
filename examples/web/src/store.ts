@@ -1,7 +1,15 @@
 import { zustandPatchUndo } from '@spliu/zustand-immer'
 import { create } from 'zustand'
 
-const useStore = create(
+interface Store {
+  count: number
+  text: string
+  increase: () => void
+  decrease: () => void
+  setText: (text: string) => void
+}
+
+const useStore = create<Store>()(
   zustandPatchUndo(set => ({
     count: 0,
     text: '',
