@@ -34,6 +34,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest",
+    "build": "unbuild",
     "prepare": "npx simple-git-hooks"
   },
   "peerDependencies": {
