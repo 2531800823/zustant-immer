@@ -1,4 +1,4 @@
-# immer-zundo
+# @spliu/zustand-immer
 
 一个基于 Immer 的 patch 特性的轻量级状态管理解决方案，具有撤销/重做功能。受 [zundo](https://github.com/charkour/zundo) 库的启发。
 
@@ -18,20 +18,20 @@
 ## 安装
 
 ```bash
-npm install immer-zundo
+npm install @spliu/zustand-immer
 # 或
-yarn add immer-zundo
+yarn add @spliu/zustand-immer
 ```
 
 ## 基础使用
 
 ```tsx
+import { zustandPatchUndo } from '@spliu/zustand-immer'
 import { create } from 'zustand'
-import { withZundo } from 'zustand-immer'
 
 // 创建一个具有撤销/重做功能的存储
 const useStore = create(
-  withZundo(set => ({
+  zustandPatchUndo(set => ({
     count: 0,
     text: '',
     increase: () => set(state => ({ count: state.count + 1 })),
@@ -68,7 +68,7 @@ function MyComponent() {
 
 ## API
 
-### withZundo
+### zustandPatchUndo
 
 一个用于增强 Zustand 存储的中间件，添加撤销/重做功能。
 
