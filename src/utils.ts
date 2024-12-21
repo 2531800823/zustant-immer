@@ -41,3 +41,21 @@ export function isPathIncluded(
   // 如果没有 include 配置，默认包含所有未排除的路径
   return true
 }
+
+export function filterPatches(
+  patches: Patch[][],
+  exclude?: string[][],
+  include?: string[][],
+) {
+  if (!exclude) {
+    return patches
+  }
+  const [patchesItem, inversePatchesItem] = patches
+  const filteredPatches = patchesItem.filter(patch =>
+    isPathIncluded(patch, exclude, include),
+  )
+  const filteredInversePatches = inversePatchesItem.filter(inversePatch =>
+    isPathIncluded(inversePatch, exclude, include),
+  )
+  return [filteredPatches, filteredInversePatches]
+}

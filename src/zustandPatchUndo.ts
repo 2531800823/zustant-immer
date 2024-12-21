@@ -9,11 +9,10 @@ import {
   createStore,
 } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
-import { isPathIncluded } from './utils'
+import { MAX_HISTORY_LIMIT } from './config'
+import { filterPatches } from './utils'
 
 enablePatches()
-// 历史记录的最大存储数量
-const MAX_HISTORY_LIMIT = 10
 
 type NestedPaths<T, P extends string[] = []> = T extends object
   ? {
@@ -172,21 +171,3 @@ export const zustandPatchUndo = (<T>(
 
   return fn
 }) as ZustandPatchUndoMiddleware
-
-function filterPatches(
-  patches: Patch[][],
-  exclude?: string[][],
-  include?: string[][],
-) {
-  if (!exclude) {
-    return patches
-  }
-  const [patchesItem, inversePatchesItem] = patches
-  const filteredPatches = patchesItem.filter(patch =>
-    isPathIncluded(patch, exclude, include),
-  )
-  const filteredInversePatches = inversePatchesItem.filter(inversePatch =>
-    isPathIncluded(inversePatch, exclude, include),
-  )
-  return [filteredPatches, filteredInversePatches]
-}
